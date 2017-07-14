@@ -7,8 +7,10 @@
    70   S=S+(4/(1+(X*X)))
    80 NEXT I
    90 LET P=S*C
-  100 PRINT "Estimated value of Pi: " P
-  110 FINISH = TIME
-  120 ELAPSED = (FINISH - START)/100
-  130 PRINT "Time Taken: " ELAPSED " seconds"
-  140 END
+  100 PRINT "Estimated value of "; CHR$(227); ": "; P
+  110 LET DIFF=ABS(PI-P)
+  120 PRINT CHR$(235); CHR$(227); ": "; DIFF
+  130 FINISH = TIME
+  140 ELAPSED = (FINISH - START)/100
+  150 PRINT "Time Taken: "; ELAPSED; " seconds"
+  160 END
