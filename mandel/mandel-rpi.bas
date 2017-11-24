@@ -1,0 +1,56 @@
+   10 VDU 20
+   20 CLS
+   30 PRINT "Owain's Mandelbrot Generator"
+   40 PRINT "============================"
+   50 PRINT""
+   60 REM VARIABLE SET UP.
+   70 PRINT "Please enter vars [DEFAULT]:"
+   80 INPUT "Xmax [ 2.0]: " SXMAX$
+   90 LET XMAX = 2.0
+  100 IF SXMAX$ <> "" THEN XMAX=EVAL(SXMAX$)
+  110 INPUT "Xmin [-2.0]: " SXMIN$
+  120 LET XMIN = -2.0
+  130 IF SXMIN$ <> "" THEN XMIN=EVAL(SXMIN$)
+  140 INPUT "Ymax [ 2.0]: " SYMAX$
+  150 LET YMAX = 2.0
+  160 IF SYMAX$ <> "" THEN YMAX=EVAL(SYMAX$)
+  170 INPUT "Ymin [-2.0]: " SYMIN$
+  180 LET YMIN = -2.0
+  190 IF SYMIN$ <> "" THEN YMIN=EVAL(SYMIN$)
+  200 REM SCREEN ON RPI IS 1920X1200
+  210 INPUT "Xres [1200]: " SXRES$
+  220 LET XRES = 1200
+  230 IF SXRES$ <> "" THEN XRES=EVAL(SXRES$)
+  240 INPUT "Yres [1200]: " SYRES$
+  250 LET YRES = 1200
+  260 IF SYRES$ <> "" THEN YRES=EVAL(SYRES$)
+  270 REM RPI SCREEN SEEMS TO BE IN HALF PIXELS.
+  280 XRES = XRES * 2
+  290 YRES = YRES * 2
+  300 LET SHIFT=3840 - XRES
+  310 INPUT "Max iterations [32]: " SMIT$
+  320 LET MIT = 32
+  330 IF SMIT$ <> "" THEN MIT=EVAL(SMIT$)
+  340 LET RMAX = 2
+  350 LET R2 = RMAX*RMAX
+  360 FOR PX = 1 TO XRES
+  370   LET X0 = ((PX/XRES) * (XMAX - XMIN))+XMIN
+  380   FOR PY = 1 TO YRES
+  390     LET Y0 = ((PY/YRES) * (YMAX - YMIN))+YMIN
+  400     LET X = 0
+  410     LET Y = 0
+  420     LET ITER = 1
+  430     PLOT 69,(SHIFT+PX),PY
+  440     FOR I = 1 TO MIT
+  450       LET XT = (X*X)-(Y*Y) + X0
+  460       Y = (2*X*Y) + Y0
+  470       X = XT
+  480       LET T = (X*X)+(Y*Y)
+  490       ITER = I
+  500       IF T > R2 THEN GOTO 520
+  510     NEXT I
+  520     REM DRAW STUFF HERE
+  530     IF ITER = MIT THEN PLOT 71,(SHIFT+PX),PY
+  540   NEXT PY
+  550 NEXT PX
+
